@@ -1,0 +1,37 @@
+plugins {
+    id("kotlin2js")
+    id("org.jetbrains.kotlin.frontend")
+}
+
+group 'space.zhdanov.web'
+version '1.0-SNAPSHOT'
+
+dependencies {
+    compile("org.jetbrains.kotlin:kotlin-stdlib-js:$Versions.kotlin")
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    compile(project(":common"))
+}
+
+compileKotlin2Js {
+//    kotlinOptions.outputFile = "$project.buildDir.path/js/${project.name}.js"
+    kotlinOptions.moduleKind = "commonjs"
+    kotlinOptions.main = "call"
+}
+
+kotlinFrontend {
+    downloadNodeJsVersion = "latest"
+
+    npm {
+        dependency("pixi.js", "4.6.2")
+    }
+
+    webpackBundle {
+        bundleName = "main"
+        sourceMapEnabled = true  // enable/disable source maps
+        contentPath = file("src/main/web") // a file that represents a directory to be served by dev server)
+        publicPath = "/"  // web prefix
+        port = 8088   // dev server port
+        proxyUrl = "" // URL to be proxied, useful to proxy backend webserver
+        stats = "errors-only"  // log level
+    }
+}

@@ -1,0 +1,33 @@
+plugins {
+    id("kotlin-multiplatform")
+}
+repositories {
+    mavenCentral()
+}
+kotlin {
+    targets {
+        jvm()
+        fromPreset(presets.js, "js") {
+            compileKotlinJs {
+                kotlinOptions.metaInfo = true
+                kotlinOptions.outputFile = "$project.buildDir.path/js/${project.name}.js"
+                kotlinOptions.sourceMap = true
+                kotlinOptions.moduleKind = "commonjs"
+                kotlinOptions.main = "call"
+            }
+        }
+    }
+
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation kotlin('stdlib-common')
+            }
+        }
+        commonTest {}
+    }
+}
+// workaround for https://youtrack.jetbrains.com/issue/KT-27170
+configurations {
+    compileClasspath
+}
