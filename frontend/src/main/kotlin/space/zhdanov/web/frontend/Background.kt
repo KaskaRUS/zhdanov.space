@@ -11,31 +11,34 @@ class Background(
     val height: Double
 ) {
     val stars = generateListOfStars(count)
-    val texture = PIXI.Texture.fromImage("img/star.png")
+    val displayObject: DisplayObject = getObject()
 
-    fun getObject(): DisplayObject {
+    private fun getObject(): DisplayObject {
         val container = PIXI.Container()
         for (star in stars) {
-            container.addChild(
-                PIXI.Sprite(texture).apply {
-                    x = star.x
-                    y = star.y
-                    scale.set(star.size, star.size)
-                    blendMode = BLEND_MODES.SCREEN
-                }
-            )
+            container.addChild(star.displayObject)
         }
         return container
     }
 
-    private fun generateListOfStars(count: Int): List<Star> =
+    fun update(dt: Double) {
+        for (star in stars) {
+            star.update(dt)
+        }
+    }
+
+    private fun generateListOfStars(count: Int): List<StarSprite> =
         (1..count).map {
-            Star(
-                id = it.toLong(),
-                x = (Random.nextDouble() - 0.5) * width,
-                y = (Random.nextDouble() - 0.5) * height,
-                size = Random.nextDouble(),
-                color = 0xFFFFFF
+            StarSprite(
+                star = Star(
+                    id = it.toLong(),
+                    x = (Random.nextDouble() - 0.5) * width,
+                    y = (Random.nextDouble() - 0.5) * height,
+                    size = Random.nextDouble() * 0.1 + 0.01,
+                    color = 0xFFFFFF
+                ),
+                speed = Random.nextDouble(0.0005, 0.001),
+                coff = Random.nextDouble(1.0, 1.4)
             )
         }
 }

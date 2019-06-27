@@ -9,7 +9,8 @@ class App {
     var size = getSizeCanvas()
     val pixi = PIXI.Application(
         size.width, size.height, json(
-            "backgroundColor" to 0x0
+            "backgroundColor" to 0x0,
+            "antialias" to true
         )
     )
 
@@ -20,9 +21,13 @@ class App {
             y = size.height / 2
         }
 
-        val background = Background(count = 300, width = size.width, height = size.height)
-        container.addChild(background.getObject())
+        val background = Background(count = 3000, width = size.width, height = size.height)
+        container.addChild(background.displayObject)
         pixi.stage.addChild(container)
+
+        pixi.ticker.add { delta ->
+            background.update(delta.toDouble())
+        }
     }
 
     fun getSizeCanvas(): Size {
