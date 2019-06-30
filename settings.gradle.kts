@@ -16,6 +16,7 @@ pluginManagement {
 
 include(
         ":common",
-        ":frontend"
+        ":frontend",
+        ":backend"
 )
 rootProject.name = "web"
