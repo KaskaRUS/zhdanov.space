@@ -37,6 +37,7 @@ class Background(
                     size = Random.nextDouble() * 0.1 + 0.01,
                     color = 0xFFFFFF
                 ),
+                flicker = Random.nextBoolean(),
                 speed = Random.nextDouble(0.0005, 0.001),
                 coff = Random.nextDouble(1.0, 1.4)
             )

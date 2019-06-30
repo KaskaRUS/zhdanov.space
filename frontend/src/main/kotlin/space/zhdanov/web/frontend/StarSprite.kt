@@ -4,7 +4,11 @@ import PIXI.BLEND_MODES
 import PIXI.DisplayObject
 import space.zhdanov.web.entities.Star
 
-class StarSprite(val star: Star, val speed: Double = 0.001, val coff: Double = 1.3) {
+class StarSprite(
+    val star: Star,
+    val flicker: Boolean = true,
+    val speed: Double = 0.001,
+    val coff: Double = 1.3) {
 
     val texture = PIXI.Texture.fromImage("img/star.png")
     val displayObject: DisplayObject = getObject()
@@ -19,16 +23,19 @@ class StarSprite(val star: Star, val speed: Double = 0.001, val coff: Double = 1
             tint = star.color
             scale.set(star.size, star.size)
             blendMode = BLEND_MODES.SCREEN
+            anchor.set(0.5, 0.5)
         }
 
     fun update(dt: Double) {
-        if (size < star.size)
-            dir = 1
-        if (size > maxSize)
-            dir = -1
+        if (flicker) {
+            if (size < star.size)
+                dir = 1
+            if (size > maxSize)
+                dir = -1
 
-        size += dir * dt * speed
+            size += dir * dt * speed
 
-        displayObject.scale.set(size)
+            displayObject.scale.set(size)
+        }
     }
 }
