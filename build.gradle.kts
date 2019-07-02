@@ -17,6 +17,7 @@ allprojects {
         jcenter()
         maven("https://dl.bintray.com/kotlin/kotlin-eap")
         maven("https://dl.bintray.com/kotlin/kotlin-js-wrappers")
+        maven("https://kotlin.bintray.com/ktor")
         maven("https://kotlin.bintray.com/kotlinx")
     }
 }
